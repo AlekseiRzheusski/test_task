@@ -1,22 +1,19 @@
 import sys
-import time
 import re
-from itertools import groupby
 
 input_file = sys.argv[1]
 
 
 def decipher(string):
-    while re.search(r'(.)\1', string) != None:
-        string = ''.join(letter for letter, group in groupby(
-            string) if len(tuple(group)) != 2)
+    while re.search(r'([a-z])\1', string) != None:
+        string = re.sub(r'([a-z])\1', '', string)
     return string
 
 
 def open_file():
     with open(input_file, 'r') as f:
         content = f.read()
-    return decipher(content)
+    return decipher(re.sub(r'\s', '', content))
 
 
 if __name__ == '__main__':
